@@ -2,6 +2,7 @@ import React from 'react';
 import RocketItem from './RocketItem';
 import { makeStyles } from '@material-ui/core';
 import Spinner from '../layout/Spinner';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,6 +29,11 @@ const Rockets = ({ rockets, loading }) => {
       </div>
     );
   }
+};
+
+Rockets.propTypes = {
+  rockets: PropTypes.array.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
 export default Rockets;
