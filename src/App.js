@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import SideNav from './components/layout/SideNav';
 import Rockets from './components/rockets/Rockets';
@@ -18,16 +19,31 @@ class App extends Component {
 
     this.setState({ rockets: res.data, loading: false });
 
-    console.log(this.state.rockets);
+    // console.log(this.state.rockets);
   }
 
   render() {
     return (
-      <div className='App'>
-        <Navbar />
-        <SideNav />
-        <Rockets loading={this.state.loading} rockets={this.state.rockets} />
-      </div>
+      <Router>
+        <div className='App'>
+          <Navbar />
+          <SideNav />
+          <Switch>
+            <Route
+              exact
+              path='/'
+              render={(props) => (
+                <Fragment>
+                  <Rockets
+                    loading={this.state.loading}
+                    rockets={this.state.rockets}
+                  />
+                </Fragment>
+              )}
+            />
+          </Switch>
+        </div>
+      </Router>
     );
   }
 }

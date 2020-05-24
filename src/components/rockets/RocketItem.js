@@ -37,9 +37,7 @@ const RocketItem = ({ rocket: { mission_name, launch_year } }) => {
   return (
     <div>
       <Card className={rocket} variant='outlined'>
-        <a href='#'>
-          <i className='fas fa-plus-square' style={myStyle}></i>
-        </a>
+        <i className='fas fa-plus-square' style={myStyle}></i>
         <Avatar
           alt={mission_name}
           src='/static/images/avatar/1.jpg'

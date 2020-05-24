@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { AppBar, Toolbar, Avatar, withStyles } from '@material-ui/core';
 import axios from 'axios';
 import Search from '../rockets/Search';
+import { Link } from 'react-router-dom';
 
 const styles = {
   nav: {
@@ -33,11 +34,13 @@ const Navbar = (props) => {
     <div className={nav}>
       <AppBar position='fixed'>
         <Toolbar className={tool}>
-          <a href='#' style={{ color: '#fff' }}>
-            <i className={icon}></i>
-          </a>
+          <Link to='/'>
+            <i className={icon} style={{ color: '#fff' }}></i>
+          </Link>
           <Search searchRockets={searchRockets} />
-          <Avatar alt='Remy Sharp' src='/images/default_img1.jpg' />
+          <Link to='/'>
+            <Avatar alt='Remy Sharp' src='/images/default_img1.jpg' />
+          </Link>
         </Toolbar>
       </AppBar>
     </div>
