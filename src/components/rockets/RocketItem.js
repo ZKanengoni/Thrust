@@ -1,9 +1,10 @@
 import React from 'react';
 import { makeStyles, Card, Avatar, Button } from '@material-ui/core';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
-  rocket: {
+  rocketstyle: {
     width: '250px',
     height: '250px',
     marginTop: '1.5em',
@@ -30,13 +31,14 @@ const myStyle = {
   marginRight: '1rem',
 };
 
-const RocketItem = ({ rocket: { mission_name, launch_year } }) => {
+const RocketItem = ({
+  rocket: { mission_name, launch_year, flight_number },
+}) => {
   const classes = useStyles();
-  const { rocket, large, btn } = classes;
-
+  const { rocketstyle, large, btn } = classes;
   return (
     <div>
-      <Card className={rocket} variant='outlined'>
+      <Card className={rocketstyle} variant='outlined'>
         <i className='fas fa-plus-square' style={myStyle}></i>
         <Avatar
           alt={mission_name}
@@ -45,9 +47,14 @@ const RocketItem = ({ rocket: { mission_name, launch_year } }) => {
         />
         <h3>{mission_name}</h3>
         <h4>{launch_year}</h4>
-        <Button variant='contained' color='primary' className={btn}>
-          More
-        </Button>
+        <Link
+          to={`/launch/${flight_number}`}
+          style={{ textDecoration: 'none' }}
+        >
+          <Button variant='contained' color='primary' className={btn}>
+            More
+          </Button>
+        </Link>
       </Card>
     </div>
   );
