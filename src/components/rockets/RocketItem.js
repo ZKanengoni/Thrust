@@ -33,13 +33,31 @@ const myStyle = {
 
 const RocketItem = ({
   rocket: { mission_name, launch_year, flight_number },
+  rocket,
+  selectedRocket,
+  setSelectedRocket,
 }) => {
   const classes = useStyles();
   const { rocketstyle, large, btn } = classes;
+
+  const handleSelectedRocket = (rocket) => {
+    if (selectedRocket.length === 0) {
+      setSelectedRocket(selectedRocket.concat(rocket));
+    } else if (selectedRocket.length < 2) {
+      setSelectedRocket(selectedRocket.concat(rocket));
+    }
+
+    console.log(selectedRocket);
+  };
+
   return (
     <div>
       <Card className={rocketstyle} variant='outlined'>
-        <i className='fas fa-plus-square' style={myStyle}></i>
+        <i
+          onClick={() => handleSelectedRocket(rocket)}
+          className='fas fa-plus-square'
+          style={myStyle}
+        ></i>
         <Avatar
           alt={mission_name}
           src='/static/images/avatar/1.jpg'

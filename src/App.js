@@ -22,30 +22,7 @@ class App extends Component {
     const res = await axios.get('https://api.spacexdata.com/v3/launches');
 
     this.setState({ rockets: res.data, loading: false });
-
-    //console.log(this.state.rockets);
   }
-
-  // Get single launch info
-  getLaunch = async (flightNum) => {
-    this.setState({ loading: true });
-
-    const res = await axios.get(
-      `https://api.spacexdata.com/v3/launches?flight_number=${flightNum}`
-    );
-
-    this.setState({ launch: res.data[0] });
-  };
-
-  // Get a single launch item
-  getRocket = async (rocketID) => {
-    const res = await axios.get(`https://api.spacexdata.com/v3/rockets/${rocketID}
-      `);
-
-    this.setState({ rocket: res.data, loading: false });
-
-    // console.log(this.state.rocket);
-  };
 
   render() {
     const { rocket, loading, rockets, launch } = this.state;
@@ -71,8 +48,6 @@ class App extends Component {
               render={(props) => (
                 <Rocket
                   {...props}
-                  getLaunch={this.getLaunch}
-                  getRocket={this.getRocket}
                   launch={launch}
                   rocket={rocket}
                   loading={loading}

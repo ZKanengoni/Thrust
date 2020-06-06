@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import RocketItem from './RocketItem';
 import { makeStyles } from '@material-ui/core';
 import Spinner from '../layout/Spinner';
@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Rockets = ({ rockets, loading }) => {
+  const [selectedRocket, setSelectedRocket] = useState([]);
   const classes = useStyles();
   const { root } = classes;
 
@@ -24,7 +25,12 @@ const Rockets = ({ rockets, loading }) => {
     return (
       <div className={root}>
         {rockets.map((rocket) => (
-          <RocketItem key={rocket.mission_name} rocket={rocket} />
+          <RocketItem
+            key={rocket.mission_name}
+            rocket={rocket}
+            selectedRocket={selectedRocket}
+            setSelectedRocket={setSelectedRocket}
+          />
         ))}
       </div>
     );
