@@ -41,13 +41,17 @@ const RocketItem = ({
   const { rocketstyle, large, btn } = classes;
 
   const handleSelectedRocket = (rocket) => {
-    if (selectedRocket.length === 0) {
-      setSelectedRocket(selectedRocket.concat(rocket));
-    } else if (selectedRocket.length < 2) {
-      setSelectedRocket(selectedRocket.concat(rocket));
+    if (selectedRocket.length > 0) {
+      let rocketArray = selectedRocket;
+      setSelectedRocket(rocketArray.push(rocket));
+      // setSelectedRocket(selectedRocket.concat(rocket));
+      console.log('Pushed Array', rocketArray.push(rocket));
+    } else {
+      setSelectedRocket(rocket);
+      let rocketArray = selectedRocket;
+      console.log('Single Rocket', rocket);
+      console.log('Double Rocket', rocketArray[0].push(rocket));
     }
-
-    console.log(selectedRocket);
   };
 
   return (
