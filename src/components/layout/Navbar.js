@@ -4,6 +4,7 @@ import { AppBar, Toolbar, Avatar, withStyles } from '@material-ui/core';
 import axios from 'axios';
 import Search from '../rockets/Search';
 import { Link } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
 
 const styles = {
   nav: {
@@ -32,7 +33,7 @@ const Navbar = (props) => {
 
   return (
     <div className={nav}>
-      <AppBar position='fixed'>
+      <AppBar position='fixed' style={{ background: '#2E3B55' }}>
         <Toolbar className={tool}>
           <Link to='/'>
             <i className={icon} style={{ color: '#fff' }}></i>

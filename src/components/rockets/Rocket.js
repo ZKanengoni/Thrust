@@ -6,6 +6,7 @@ import Card from '@material-ui/core/Card';
 import Linegraph from '../graphs/Linegraph';
 import Bargraph from '../graphs/Bargraph';
 import axios from 'axios';
+import Doughnutgraph from '../graphs/Doughnutgraph';
 // import Doughnutgraph from '../graphs/Doughnutgraph';
 
 const useStyles = makeStyles({
@@ -34,6 +35,17 @@ const useStyles = makeStyles({
     height: '480px',
     marginTop: '1rem',
     marginRight: '1rem',
+    float: 'right',
+  },
+  innerCard: {
+    width: '50%',
+    height: '100%',
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    float: 'left',
+  },
+  innerVideo: {
+    width: '50%',
+    height: '100%',
     float: 'right',
   },
 });
@@ -75,38 +87,111 @@ const Rocket = (props) => {
     height,
     mass,
     payload_weight,
+    rocket_id,
   } = rocket;
 
   const { timeline } = launch;
 
-  if (timeline != undefined) {
-    const lineData = {
-      labels: Object.keys(timeline),
-      datasets: [
-        {
-          label: 'Liftoff Timeline (in seconds)',
-          data: Object.values(timeline),
-          backgroundColor: ['rgba(255, 99, 132, 0.2)'],
-          borderColor: [
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(153, 102, 255, 1)',
-            'rgba(255, 159, 64, 1)',
-          ],
-          borderWidth: 1,
-        },
-      ],
-    };
+  if (timeline !== undefined) {
+    let lineData = {};
+
+    if (timeline !== null) {
+      lineData = {
+        labels: Object.keys(timeline),
+        datasets: [
+          {
+            label: 'Liftoff Timeline (in seconds)',
+            data: Object.values(timeline),
+            backgroundColor: [
+              'rgba(255, 142, 83, 0.8)',
+              'rgba(255, 142, 83, 0.8)',
+              'rgba(255, 142, 83, 0.8)',
+              'rgba(255, 142, 83, 0.8)',
+              'rgba(255, 142, 83, 0.8)',
+              'rgba(255, 142, 83, 0.8)',
+              'rgba(255, 142, 83, 0.8)',
+              'rgba(255, 142, 83, 0.8)',
+              'rgba(255, 142, 83, 0.8)',
+              'rgba(255, 142, 83, 0.8)',
+              'rgba(255, 142, 83, 0.8)',
+              'rgba(255, 142, 83, 0.8)',
+              'rgba(255, 142, 83, 0.8)',
+              'rgba(255, 142, 83, 0.8)',
+              'rgba(255, 142, 83, 0.8)',
+              'rgba(255, 142, 83, 0.8)',
+              'rgba(255, 142, 83, 0.8)',
+              'rgba(255, 142, 83, 0.8)',
+              'rgba(255, 142, 83, 0.8)',
+              'rgba(255, 142, 83, 0.8)',
+              'rgba(255, 142, 83, 0.8)',
+              'rgba(255, 142, 83, 0.8)',
+              'rgba(255, 142, 83, 0.8)',
+              'rgba(255, 142, 83, 0.8)',
+              'rgba(255, 142, 83, 0.8)',
+              'rgba(255, 142, 83, 0.8)',
+              'rgba(255, 142, 83, 0.8)',
+              'rgba(255, 142, 83, 0.8)',
+              'rgba(255, 142, 83, 0.8)',
+            ],
+            borderColor: [
+              '#000000',
+              '#000000',
+              '#000000',
+              '#000000',
+              '#000000',
+              '#000000',
+              '#000000',
+              '#000000',
+              '#000000',
+              '#000000',
+              '#000000',
+              '#000000',
+              '#000000',
+              '#000000',
+              '#000000',
+              '#000000',
+              '#000000',
+              '#000000',
+              '#000000',
+              '#000000',
+              '#000000',
+              '#000000',
+              '#000000',
+              '#000000',
+              '#000000',
+              '#000000',
+              '#000000',
+              '#000000',
+              '#000000',
+              '#000000',
+              '#000000',
+            ],
+            borderWidth: 1,
+          },
+        ],
+      };
+    }
 
     const barData = {
       datasets: [
         {
           label: 'Cost per launch (million $)',
           data: [cost_per_launch],
-          backgroundColor: ['rgba(255, 99, 132, 0.2)'],
-          borderColor: ['rgba(255, 99, 132, 1)'],
+          backgroundColor: ['rgba(255, 142, 83, 0.8)'],
+          borderColor: ['#000000'],
+          borderWidth: 1,
+        },
+      ],
+    };
+
+    const doughnutData = {
+      labels: ['% of successful launches', '%  of unsuccessful launches'],
+      datasets: [
+        {
+          label: `${rocket_id} launch success rate (%)`,
+          data: [success_rate_pct, 100 - success_rate_pct],
+          backgroundColor: ['rgba(255, 142, 83, 0.8)', 'rgba(0, 0, 0, 0.8)'],
+          borderColor: ['#000000', '#000000'],
           borderWidth: 1,
         },
       ],
@@ -118,8 +203,26 @@ const Rocket = (props) => {
         <Card className={classes.root} variant='outlined'>
           <Linegraph data={lineData} />
         </Card>
-        <Card className={classes.small} variant='outlined'></Card>
-        <Card className={classes.large} variant='outlined'></Card>
+        <Card className={classes.small} variant='outlined'>
+          <Doughnutgraph data={doughnutData} />
+        </Card>
+        <Card className={classes.large} variant='outlined'>
+          <Card variant='outlined' className={classes.innerCard}>
+            <h1
+              style={{
+                color: '#fff',
+                textAlign: 'center',
+                marginTop: '1rem',
+                fontSize: '25px',
+              }}
+            >
+              Launch Information
+            </h1>
+          </Card>
+          <Card variant='outlined' className={classes.innerVideo}>
+            {/* Video here */}
+          </Card>
+        </Card>
         <Card className={classes.smaller} variant='outlined'>
           <Bargraph data={barData} />
         </Card>

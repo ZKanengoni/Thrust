@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles, Card, Avatar, Button } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
@@ -19,17 +19,31 @@ const useStyles = makeStyles((theme) => ({
   },
   btn: {
     top: '0.2rem',
-    marginLeft: '35%',
+    margin: 'auto',
+    display: 'flex',
+    justifyContent: 'centre',
+  },
+  root: {
+    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+    borderRadius: 3,
+    border: 0,
+    color: 'white',
+    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+  },
+  label: {
+    textTransform: 'capitalize',
   },
 }));
 
 const myStyle = {
-  color: 'grey',
   marginBottom: '-1rem',
   float: 'right',
   marginTop: '1rem',
   marginRight: '1rem',
+  color: 'grey',
 };
+
+let counter = 0;
 
 const RocketItem = ({
   rocket: { mission_name, launch_year, flight_number },
@@ -39,23 +53,23 @@ const RocketItem = ({
 }) => {
   const classes = useStyles();
   const { rocketstyle, large, btn } = classes;
+  const [btnDisabled, setBtnDisabled] = useState(true);
 
   const handleSelectedRocket = (rocket) => {
-    if (selectedRocket.length > 0) {
-      let rocketArray = selectedRocket;
-      setSelectedRocket(rocketArray.push(rocket));
-      // setSelectedRocket(selectedRocket.concat(rocket));
-      console.log('Pushed Array', rocketArray.push(rocket));
+    if (selectedRocket.length < 2) {
+      setSelectedRocket(selectedRocket.concat(rocket));
+      console.log('Double', selectedRocket.concat(rocket));
+    }
+
+    if (selectedRocket.length === 2) {
+      setBtnDisabled(false);
     } else {
-      setSelectedRocket(rocket);
-      let rocketArray = selectedRocket;
-      console.log('Single Rocket', rocket);
-      console.log('Double Rocket', rocketArray[0].push(rocket));
+      setBtnDisabled(true);
     }
   };
 
   return (
-    <div>
+    <div style={{ display: 'flex', justifyContent: 'Centre' }}>
       <Card className={rocketstyle} variant='outlined'>
         <i
           onClick={() => handleSelectedRocket(rocket)}
@@ -73,7 +87,15 @@ const RocketItem = ({
           to={`/launch/${flight_number}`}
           style={{ textDecoration: 'none' }}
         >
-          <Button variant='contained' color='primary' className={btn}>
+          <Button
+            variant='contained'
+            color='primary'
+            className={btn}
+            classes={{
+              root: classes.root,
+              label: classes.label,
+            }}
+          >
             More
           </Button>
         </Link>
