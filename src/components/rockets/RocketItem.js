@@ -41,6 +41,7 @@ const myStyle = {
   marginTop: '1rem',
   marginRight: '1rem',
   color: 'grey',
+  cursor: 'pointer',
 };
 
 let counter = 0;
@@ -48,29 +49,30 @@ let counter = 0;
 const RocketItem = ({
   rocket: { mission_name, launch_year, flight_number },
   rocket,
-  selectedRocket,
-  setSelectedRocket,
 }) => {
   const classes = useStyles();
   const { rocketstyle, large, btn } = classes;
-  const [btnDisabled, setBtnDisabled] = useState(true);
 
   const handleSelectedRocket = (rocket) => {
-    if (selectedRocket.length < 2) {
-      setSelectedRocket(selectedRocket.concat(rocket));
-      console.log('Double', selectedRocket.concat(rocket));
-    }
+    const rocketOne = window.localStorage.getItem('RocketOne');
+    const rocketTwo = window.localStorage.getItem('RocketTwo');
 
-    if (selectedRocket.length === 2) {
-      setBtnDisabled(false);
+    if ((rocketOne && !rocketTwo) || rocketTwo) {
+      window.localStorage.setItem('RocketTwo', JSON.stringify(rocket));
     } else {
-      setBtnDisabled(true);
+      window.localStorage.setItem('RocketOne', JSON.stringify(rocket));
     }
   };
 
+  // function colorChange(e) {
+  //   if (e.target.classList.conatians('fa-plus-square')) {
+  //     e.target.style.color = 'rgba(255, 142, 83, 1)';
+  //   }
+  // }
+
   return (
     <div style={{ display: 'flex', justifyContent: 'Centre' }}>
-      <Card className={rocketstyle} variant='outlined'>
+      <Card className={rocketstyle} variant='outlined' id={'mission_name'}>
         <i
           onClick={() => handleSelectedRocket(rocket)}
           className='fas fa-plus-square'
@@ -82,7 +84,7 @@ const RocketItem = ({
           className={large}
         />
         <h3>{mission_name}</h3>
-        <h4>{launch_year}</h4>
+        <h4 id={'year'}>{launch_year}</h4>
         <Link
           to={`/launch/${flight_number}`}
           style={{ textDecoration: 'none' }}

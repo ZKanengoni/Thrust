@@ -56,11 +56,27 @@ const Search = ({ searchRockets }) => {
     setText('');
   };
 
-  const onChange = (e) => setText(e.target.value);
+  function filterLaunches() {
+    document.querySelectorAll('#mission_name').forEach((launch) => {
+      const card = launch.textContent;
+
+      if (card.toLocaleLowerCase().indexOf(text.toLocaleLowerCase()) != -1) {
+        launch.style.display = 'block';
+      } else {
+        launch.style.display = 'none';
+      }
+    });
+  }
+
+  const onChange = (e) => {
+    setText(e.target.value);
+    filterLaunches();
+  };
 
   const keyPressed = (e) => {
     if (e.key === 'Enter') {
       onSubmit();
+      filterLaunches();
     }
   };
 

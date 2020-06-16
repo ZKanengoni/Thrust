@@ -15,6 +15,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Collapse from '@material-ui/core/Collapse';
 import Switch from '@material-ui/core/Switch';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const drawerWidth = '20%';
 
@@ -56,16 +58,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SideNav = (props) => {
+const SideNav = () => {
   const classes = useStyles();
 
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleClick = () => {
     setOpen(!open);
   };
 
-  const [checked, setChecked] = React.useState(['']);
+  const [checked, setChecked] = useState(['']);
 
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
@@ -78,6 +80,20 @@ const SideNav = (props) => {
     }
 
     setChecked(newChecked);
+  };
+
+  let history = useHistory();
+
+  const checkCompare = () => {
+    if (localStorage.length === 2) {
+      history.push('/Compare');
+    } else {
+      alert('Please select two rockets to compare');
+    }
+  };
+
+  const clearCompare = () => {
+    localStorage.clear();
   };
 
   return (
@@ -161,15 +177,29 @@ const SideNav = (props) => {
                 />
               </ListItemSecondaryAction>
             </ListItem>
+            {/* <Link to={'/Compare'} style={{ textDecoration: 'none' }}> */}
             <ListItem>
               <Button
-                disabled={true}
+                disabled={false}
+                // disabled={true}
                 className={classes.btn}
-                // style={{ color: '#FF8E53 ' }}
+                style={{ color: '#FF8E53' }}
+                onClick={() => checkCompare()}
               >
                 Compare
               </Button>
             </ListItem>
+            <ListItem>
+              <Button
+                disabled={false}
+                className={classes.btn}
+                style={{ color: 'lightgray', textTransform: 'capitalize' }}
+                onClick={() => clearCompare()}
+              >
+                Clear Compare
+              </Button>
+            </ListItem>
+            {/* </Link> */}
           </List>
         </div>
       </Drawer>

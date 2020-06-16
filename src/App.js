@@ -6,6 +6,7 @@ import Rockets from './components/rockets/Rockets';
 import Rocket from './components/rockets/Rocket';
 import axios from 'axios';
 import './App.css';
+import Compare from './components/rockets/Compare';
 
 class App extends Component {
   state = {
@@ -32,7 +33,9 @@ class App extends Component {
         <div className='App'>
           <Navbar />
           <SideNav />
+
           <Switch>
+            <Route exact path='/Compare' render={() => <Compare />} />
             <Route
               exact
               path='/'

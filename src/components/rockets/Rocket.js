@@ -7,7 +7,7 @@ import Linegraph from '../graphs/Linegraph';
 import Bargraph from '../graphs/Bargraph';
 import axios from 'axios';
 import Doughnutgraph from '../graphs/Doughnutgraph';
-// import Doughnutgraph from '../graphs/Doughnutgraph';
+import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles({
   root: {
@@ -39,7 +39,7 @@ const useStyles = makeStyles({
   },
   innerCard: {
     width: '50%',
-    height: '100%',
+    height: '50%',
     backgroundColor: 'rgba(0, 0, 0, 0.6)',
     float: 'left',
   },
@@ -90,10 +90,26 @@ const Rocket = (props) => {
     rocket_id,
   } = rocket;
 
-  const { timeline } = launch;
+  const {
+    timeline,
+    mission_name,
+    launch_date_local,
+    launch_year,
+    launch_site,
+    links,
+  } = launch;
 
   if (timeline !== undefined) {
     let lineData = {};
+    let launch_success = '';
+
+    if (timeline !== null && timeline !== undefined) {
+      if (Object.keys(timeline).length <= 1) {
+        launch_success = 'False';
+      } else {
+        launch_success = 'True';
+      }
+    }
 
     if (timeline !== null) {
       lineData = {
@@ -103,36 +119,30 @@ const Rocket = (props) => {
             label: 'Liftoff Timeline (in seconds)',
             data: Object.values(timeline),
             backgroundColor: [
-              'rgba(255, 142, 83, 0.8)',
-              'rgba(255, 142, 83, 0.8)',
-              'rgba(255, 142, 83, 0.8)',
-              'rgba(255, 142, 83, 0.8)',
-              'rgba(255, 142, 83, 0.8)',
-              'rgba(255, 142, 83, 0.8)',
-              'rgba(255, 142, 83, 0.8)',
-              'rgba(255, 142, 83, 0.8)',
-              'rgba(255, 142, 83, 0.8)',
-              'rgba(255, 142, 83, 0.8)',
-              'rgba(255, 142, 83, 0.8)',
-              'rgba(255, 142, 83, 0.8)',
-              'rgba(255, 142, 83, 0.8)',
-              'rgba(255, 142, 83, 0.8)',
-              'rgba(255, 142, 83, 0.8)',
-              'rgba(255, 142, 83, 0.8)',
-              'rgba(255, 142, 83, 0.8)',
-              'rgba(255, 142, 83, 0.8)',
-              'rgba(255, 142, 83, 0.8)',
-              'rgba(255, 142, 83, 0.8)',
-              'rgba(255, 142, 83, 0.8)',
-              'rgba(255, 142, 83, 0.8)',
-              'rgba(255, 142, 83, 0.8)',
-              'rgba(255, 142, 83, 0.8)',
-              'rgba(255, 142, 83, 0.8)',
-              'rgba(255, 142, 83, 0.8)',
-              'rgba(255, 142, 83, 0.8)',
-              'rgba(255, 142, 83, 0.8)',
-              'rgba(255, 142, 83, 0.8)',
+              'rgba(0, 120, 100, 0.8)',
+              'rgba(0, 120, 100, 0.8)',
+              'rgba(0, 120, 100, 0.8)',
+              'rgba(0, 120, 100, 0.8)',
+              'rgba(0, 120, 100, 0.8)',
+              'rgba(0, 120, 100, 0.8)',
+              'rgba(0, 120, 100, 0.8)',
+              'rgba(0, 120, 100, 0.8)',
+              'rgba(0, 120, 100, 0.8)',
+              'rgba(0, 120, 100, 0.8)',
+              'rgba(0, 120, 100, 0.8)',
+              'rgba(0, 120, 100, 0.8)',
+              'rgba(0, 120, 100, 0.8)',
+              'rgba(0, 120, 100, 0.8)',
+              'rgba(0, 120, 100, 0.8)',
+              'rgba(0, 120, 100, 0.8)',
+              'rgba(0, 120, 100, 0.8)',
+              'rgba(0, 120, 100, 0.8)',
+              'rgba(0, 120, 100, 0.8)',
+              'rgba(0, 120, 100, 0.8)',
+              'rgba(0, 120, 100, 0.8)',
+              'rgba(0, 120, 100, 0.8)',
             ],
+            borderWidth: 1,
             borderColor: [
               '#000000',
               '#000000',
@@ -154,19 +164,7 @@ const Rocket = (props) => {
               '#000000',
               '#000000',
               '#000000',
-              '#000000',
-              '#000000',
-              '#000000',
-              '#000000',
-              '#000000',
-              '#000000',
-              '#000000',
-              '#000000',
-              '#000000',
-              '#000000',
-              '#000000',
             ],
-            borderWidth: 1,
           },
         ],
       };
@@ -178,7 +176,7 @@ const Rocket = (props) => {
           label: 'Cost per launch (million $)',
           data: [cost_per_launch],
           backgroundColor: ['rgba(255, 142, 83, 0.8)'],
-          borderColor: ['#000000'],
+          borderColor: ['rgba(255, 142, 83, 0.8)'],
           borderWidth: 1,
         },
       ],
@@ -190,12 +188,20 @@ const Rocket = (props) => {
         {
           label: `${rocket_id} launch success rate (%)`,
           data: [success_rate_pct, 100 - success_rate_pct],
-          backgroundColor: ['rgba(255, 142, 83, 0.8)', 'rgba(0, 0, 0, 0.8)'],
-          borderColor: ['#000000', '#000000'],
+          backgroundColor: ['rgba(255, 88, 94, 0.6)', 'rgba(0, 0, 0, 0.6)'],
+          borderColor: ['rgba(255, 88, 94, 0.6)', 'rgba(0, 0, 0, 0.6)'],
           borderWidth: 1,
         },
       ],
     };
+
+    let vidLink = links.video_link;
+    let newLink = '';
+    if (vidLink !== null) {
+      newLink = vidLink.replace('watch?v=', 'embed/');
+    }
+
+    console.log(newLink);
 
     // console.log(data);
     return (
@@ -207,21 +213,42 @@ const Rocket = (props) => {
           <Doughnutgraph data={doughnutData} />
         </Card>
         <Card className={classes.large} variant='outlined'>
-          <Card variant='outlined' className={classes.innerCard}>
-            <h1
-              style={{
-                color: '#fff',
-                textAlign: 'center',
-                marginTop: '1rem',
-                fontSize: '25px',
-              }}
-            >
-              Launch Information
-            </h1>
-          </Card>
-          <Card variant='outlined' className={classes.innerVideo}>
-            {/* Video here */}
-          </Card>
+          <Paper
+            elevation={0}
+            square
+            style={{
+              width: '350px',
+              height: '100%',
+              backgroundColor: 'rgba(0, 0, 0, 0.7)',
+              float: 'left',
+            }}
+          >
+            <h1>Launch Information</h1>
+            <p>Mission Name: {mission_name}</p>
+            <p>Launch Date and Time: {launch_date_local}</p>
+            <p>Launch Site: {launch_site.site_name_long}</p>
+            <p>Launch Year: {launch_year}</p>
+            <p>Successful launch: {launch_success}</p>
+            <p>Rocket: {rocket_id}</p>
+          </Paper>
+          <Paper
+            elevation={0}
+            square
+            style={{
+              width: '500px',
+              height: '100%',
+              float: 'right',
+            }}
+          >
+            <iframe
+              width='500'
+              height='477'
+              src={newLink}
+              frameborder='0'
+              allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture'
+              allowfullscreen
+            ></iframe>
+          </Paper>
         </Card>
         <Card className={classes.smaller} variant='outlined'>
           <Bargraph data={barData} />
